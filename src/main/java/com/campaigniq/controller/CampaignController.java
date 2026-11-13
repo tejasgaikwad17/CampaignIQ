@@ -2,6 +2,8 @@
 package com.campaigniq.controller;
 
 import java.util.List;
+import com.campaigniq.dto.CampaignRequest;
+import com.campaigniq.dto.CampaignResponse;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -21,17 +23,17 @@ public class CampaignController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Campaign createCampaign(@RequestBody Campaign campaign) {
-        return campaignService.createCampaign(campaign);
+    public CampaignResponse createCampaign(@RequestBody CampaignRequest campaignRequest) {
+        return campaignService.createCampaign(campaignRequest);
     }
 
     @GetMapping
-    public List<Campaign> getAllCampaigns() {
+    public List<CampaignResponse> getAllCampaigns() {
         return campaignService.getAllCampaigns();
     }
     
     @GetMapping("/{id}")
-    public Campaign getCampaignById(@PathVariable Long id) {
+    public CampaignResponse getCampaignById(@PathVariable Long id) {
         return campaignService.getCampaignById(id);
     }
     
@@ -39,7 +41,12 @@ public class CampaignController {
     public Campaign updateCampaign(
             @PathVariable Long id,
             @RequestBody Campaign campaign) {
-
-        return campaignService.updatedCampaign(id, campaign);
+        return campaignService.updateCampaign(id, campaign);
+    }
+    
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteCampaign(@PathVariable Long id) {
+    	campaignService.deleteCampaign(id);
     }
 }
