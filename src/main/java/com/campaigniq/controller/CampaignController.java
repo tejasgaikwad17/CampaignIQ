@@ -2,14 +2,16 @@
 package com.campaigniq.controller;
 
 import java.util.List;
+import jakarta.validation.Valid;
+
 import com.campaigniq.dto.CampaignRequest;
 import com.campaigniq.dto.CampaignResponse;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import com.campaigniq.entity.Campaign;
 import com.campaigniq.service.CampaignService;
+
 
 @RestController
 @RequestMapping("/api/campaigns")
@@ -23,7 +25,9 @@ public class CampaignController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public CampaignResponse createCampaign(@RequestBody CampaignRequest campaignRequest) {
+    public CampaignResponse createCampaign(
+            @Valid @RequestBody CampaignRequest campaignRequest) {
+
         return campaignService.createCampaign(campaignRequest);
     }
 
@@ -38,10 +42,11 @@ public class CampaignController {
     }
     
     @PutMapping("/{id}")
-    public Campaign updateCampaign(
+    public CampaignResponse updateCampaign(
             @PathVariable Long id,
-            @RequestBody Campaign campaign) {
-        return campaignService.updateCampaign(id, campaign);
+            @Valid @RequestBody CampaignRequest campaignRequest) {
+
+        return campaignService.updateCampaign(id, campaignRequest);
     }
     
     @DeleteMapping("/{id}")

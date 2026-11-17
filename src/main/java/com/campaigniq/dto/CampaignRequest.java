@@ -2,15 +2,30 @@ package com.campaigniq.dto;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 
 public class CampaignRequest {
 
+	@NotBlank(message = "Campaign name is required")
 	private String campaignName;
+
+	@NotBlank(message = "Description is required")
 	private String description;
+	
+	@NotNull(message = "Budget is required")
+	@Positive(message = "Budget must be greater than zero")
 	private BigDecimal budget;
+
+	@NotNull(message = "Start date is required")
 	private LocalDate startDate;
-    private LocalDate endDate;
-    private String status;
+	
+	@NotNull(message = "End date is required")
+	private LocalDate endDate;
+
+	@NotBlank(message = "Status is required")
+	private String status;
     
     //Getter and Setter
     

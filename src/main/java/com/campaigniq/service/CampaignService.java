@@ -1,11 +1,12 @@
 package com.campaigniq.service;
 
+
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
-import java.util.ArrayList;
 
 import com.campaigniq.dto.CampaignRequest;
 import com.campaigniq.dto.CampaignResponse;
@@ -94,23 +95,36 @@ public class CampaignService {
 	    return response;
 	}
 	
-	public Campaign updateCampaign(Long id, Campaign updateCampaign) {
-		Campaign existingCampaign = campaignRepository.findById(id)
-				.orElseThrow(() -> new ResponseStatusException(
-						HttpStatus.NOT_FOUND,
-						"Campaign not found with the id:  " + id
-					));
-		
-		
-	    existingCampaign.setCampaignName(updateCampaign.getCampaignName());
-	    existingCampaign.setDescription(updateCampaign.getDescription());
-	    existingCampaign.setBudget(updateCampaign.getBudget());
-	    existingCampaign.setStartDate(updateCampaign.getStartDate());
-	    existingCampaign.setEndDate(updateCampaign.getEndDate());
-	    existingCampaign.setStatus(updateCampaign.getStatus());
+	public CampaignResponse updateCampaign(
+	        Long id,
+	        CampaignRequest campaignRequest) {
 
-	    return campaignRepository.save(existingCampaign);
-				
+	    Campaign existingCampaign = campaignRepository.findById(id)
+	        .orElseThrow(() -> new ResponseStatusException(
+	            HttpStatus.NOT_FOUND,
+	            "Campaign not found with the id: " + id
+	        ));
+
+	    existingCampaign.setCampaignName(campaignRequest.getCampaignName());
+	    existingCampaign.setDescription(campaignRequest.getDescription());
+	    existingCampaign.setBudget(campaignRequest.getBudget());
+	    existingCampaign.setStartDate(campaignRequest.getStartDate());
+	    existingCampaign.setEndDate(campaignRequest.getEndDate());
+	    existingCampaign.setStatus(campaignRequest.getStatus());
+
+	    Campaign savedCampaign = campaignRepository.save(existingCampaign);
+
+	    CampaignResponse response = new CampaignResponse();
+
+	    response.setId(savedCampaign.getId());
+	    response.setCampaignName(savedCampaign.getCampaignName());
+	    response.setDescription(savedCampaign.getDescription());
+	    response.setBudget(savedCampaign.getBudget());
+	    response.setStartDate(savedCampaign.getStartDate());
+	    response.setEndDate(savedCampaign.getEndDate());
+	    response.setStatus(savedCampaign.getStatus());
+
+	    return response;
 	}
 	
 	public void deleteCampaign(Long id) {
