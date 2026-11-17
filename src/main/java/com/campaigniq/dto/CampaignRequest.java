@@ -1,11 +1,13 @@
 package com.campaigniq.dto;
 
 import java.math.BigDecimal;
+
 import java.time.LocalDate;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 
+@ValidCampaignDates
 public class CampaignRequest {
 
 	@NotBlank(message = "Campaign name is required")
