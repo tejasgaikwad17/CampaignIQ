@@ -1,6 +1,9 @@
 package com.campaigniq.entity;
 
 import java.math.BigDecimal;
+import com.campaigniq.CampaignStatus;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import java.time.LocalDate;
 
 import jakarta.persistence.Entity;
@@ -25,7 +28,8 @@ public class Campaign {
 
     private LocalDate endDate;
 
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private CampaignStatus status;
 
     // Getter and Setter for id
     public Long getId() {
@@ -81,12 +85,11 @@ public class Campaign {
         this.endDate = endDate;
     }
 
-    // Getter and Setter for status
-    public String getStatus() {
+    public CampaignStatus getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(CampaignStatus status) {
         this.status = status;
     }
 }

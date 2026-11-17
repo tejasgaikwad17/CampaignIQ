@@ -1,6 +1,7 @@
 package com.campaigniq.dto;
 
 import java.math.BigDecimal;
+import com.campaigniq.CampaignStatus;
 
 import java.time.LocalDate;
 import jakarta.validation.constraints.NotBlank;
@@ -26,8 +27,8 @@ public class CampaignRequest {
 	@NotNull(message = "End date is required")
 	private LocalDate endDate;
 
-	@NotBlank(message = "Status is required")
-	private String status;
+	@NotNull(message = "Status is required")
+	private CampaignStatus status;
     
     //Getter and Setter
     
@@ -70,11 +71,11 @@ public class CampaignRequest {
         this.endDate = endDate;
     }
 
-    public String getStatus() {
+    public CampaignStatus getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(CampaignStatus status) {
         this.status = status;
     }
 }

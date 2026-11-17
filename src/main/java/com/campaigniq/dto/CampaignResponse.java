@@ -2,6 +2,7 @@
 package com.campaigniq.dto;
 
 import java.math.BigDecimal;
+import com.campaigniq.CampaignStatus;
 import java.time.LocalDate;
 
 public class CampaignResponse {
@@ -12,7 +13,7 @@ public class CampaignResponse {
     private BigDecimal budget;
     private LocalDate startDate;
     private LocalDate endDate;
-    private String status;
+    private CampaignStatus status;
 
     // Getters and Setters
 
@@ -64,11 +65,11 @@ public class CampaignResponse {
         this.endDate = endDate;
     }
 
-    public String getStatus() {
+    public CampaignStatus getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(CampaignStatus status) {
         this.status = status;
     }
 }
