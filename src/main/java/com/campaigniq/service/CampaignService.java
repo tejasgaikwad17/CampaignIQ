@@ -158,4 +158,32 @@ public class CampaignService {
 
         campaignRepository.delete(existingCampaign);
     }
+    
+    
+ // SEARCH CAMPAIGNS BY NAME
+public List<CampaignResponse> searchCampaigns(String name) {
+
+    List<Campaign> campaigns =
+            campaignRepository.findByCampaignNameContainingIgnoreCase(name);
+
+    List<CampaignResponse> responses = new ArrayList<>();
+
+    for (Campaign campaign : campaigns) {
+
+        CampaignResponse response = new CampaignResponse();
+
+        response.setId(campaign.getId());
+        response.setCampaignName(campaign.getCampaignName());
+        response.setDescription(campaign.getDescription());
+        response.setBudget(campaign.getBudget());
+        response.setStartDate(campaign.getStartDate());
+        response.setEndDate(campaign.getEndDate());
+        response.setStatus(campaign.getStatus());
+
+        responses.add(response);
+    }
+
+    return responses;
+}
+
 }

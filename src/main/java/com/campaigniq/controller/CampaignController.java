@@ -36,6 +36,13 @@ public class CampaignController {
         return campaignService.getAllCampaigns();
     }
     
+    @GetMapping("/search")
+    public List<CampaignResponse> searchCampaigns(
+            @RequestParam String name) {
+
+        return campaignService.searchCampaigns(name);
+    }
+    
     @GetMapping("/{id}")
     public CampaignResponse getCampaignById(@PathVariable Long id) {
         return campaignService.getCampaignById(id);
