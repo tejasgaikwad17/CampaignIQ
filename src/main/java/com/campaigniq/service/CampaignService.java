@@ -1,5 +1,5 @@
-package com.campaigniq.service;
 
+package com.campaigniq.service;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import com.campaigniq.CampaignStatus;
 import com.campaigniq.dto.CampaignRequest;
 import com.campaigniq.dto.CampaignResponse;
 import com.campaigniq.entity.Campaign;
@@ -16,124 +17,145 @@ import com.campaigniq.repository.CampaignRepository;
 @Service
 public class CampaignService {
 
-	private final CampaignRepository campaignRepository;
-	
-	public CampaignService(CampaignRepository campaignRepository) {
-		this.campaignRepository = campaignRepository;
-	}
-	
+    private final CampaignRepository campaignRepository;
 
-	public CampaignResponse createCampaign(CampaignRequest campaignRequest) {
-	
-	    Campaign campaign = new Campaign();
-	
-	    campaign.setCampaignName(campaignRequest.getCampaignName());
-	    campaign.setDescription(campaignRequest.getDescription());
-	    campaign.setBudget(campaignRequest.getBudget());
-	    campaign.setStartDate(campaignRequest.getStartDate());
-	    campaign.setEndDate(campaignRequest.getEndDate());
-	    campaign.setStatus(campaignRequest.getStatus());
-	
-	    Campaign savedCampaign = campaignRepository.save(campaign);
-	
-	    CampaignResponse response = new CampaignResponse();
-	
-	    response.setId(savedCampaign.getId());	
-	    response.setCampaignName(savedCampaign.getCampaignName());
-	    response.setDescription(savedCampaign.getDescription());
-	    response.setBudget(savedCampaign.getBudget());
-	    response.setStartDate(savedCampaign.getStartDate());
-	    response.setEndDate(savedCampaign.getEndDate());
-	    response.setStatus(savedCampaign.getStatus());
-	
-	    return response;
-	}
+    public CampaignService(CampaignRepository campaignRepository) {
+        this.campaignRepository = campaignRepository;
+    }
 
-	
-	public List<CampaignResponse> getAllCampaigns() {
+    // CREATE CAMPAIGN
+    public CampaignResponse createCampaign(CampaignRequest campaignRequest) {
 
-	    List<Campaign> campaigns = campaignRepository.findAll();
+        Campaign campaign = new Campaign();
 
-	    List<CampaignResponse> responses = new ArrayList<>();
+        campaign.setCampaignName(campaignRequest.getCampaignName());
+        campaign.setDescription(campaignRequest.getDescription());
+        campaign.setBudget(campaignRequest.getBudget());
+        campaign.setStartDate(campaignRequest.getStartDate());
+        campaign.setEndDate(campaignRequest.getEndDate());
+        campaign.setStatus(campaignRequest.getStatus());
 
-	    for (Campaign campaign : campaigns) {
+        Campaign savedCampaign = campaignRepository.save(campaign);
 
-	        CampaignResponse response = new CampaignResponse();
+        CampaignResponse response = new CampaignResponse();
 
-	        response.setId(campaign.getId());
-	        response.setCampaignName(campaign.getCampaignName());
-	        response.setDescription(campaign.getDescription());
-	        response.setBudget(campaign.getBudget());
-	        response.setStartDate(campaign.getStartDate());
-	        response.setEndDate(campaign.getEndDate());
-	        response.setStatus(campaign.getStatus());
+        response.setId(savedCampaign.getId());
+        response.setCampaignName(savedCampaign.getCampaignName());
+        response.setDescription(savedCampaign.getDescription());
+        response.setBudget(savedCampaign.getBudget());
+        response.setStartDate(savedCampaign.getStartDate());
+        response.setEndDate(savedCampaign.getEndDate());
+        response.setStatus(savedCampaign.getStatus());
 
-	        responses.add(response);
-	    }
+        return response;
+    }
 
-	    return responses;
-	}
-	
-	public CampaignResponse getCampaignById(Long id) {
+    // GET ALL CAMPAIGNS
+    public List<CampaignResponse> getAllCampaigns() {
 
-	    Campaign campaign = campaignRepository.findById(id)
-	        .orElseThrow(() -> new ResponseStatusException(
-	            HttpStatus.NOT_FOUND,
-	            "Campaign not found with the id: " + id
-	        ));
+        List<Campaign> campaigns = campaignRepository.findAll();
 
-	    CampaignResponse response = new CampaignResponse();
+        List<CampaignResponse> responses = new ArrayList<>();
 
-	    response.setId(campaign.getId());
-	    response.setCampaignName(campaign.getCampaignName());
-	    response.setDescription(campaign.getDescription());
-	    response.setBudget(campaign.getBudget());
-	    response.setStartDate(campaign.getStartDate());
-	    response.setEndDate(campaign.getEndDate());
-	    response.setStatus(campaign.getStatus());
+        for (Campaign campaign : campaigns) {
 
-	    return response;
-	}
-	
-	public CampaignResponse updateCampaign(
-	        Long id,
-	        CampaignRequest campaignRequest) {
+            CampaignResponse response = new CampaignResponse();
 
-	    Campaign existingCampaign = campaignRepository.findById(id)
-	        .orElseThrow(() -> new ResponseStatusException(
-	            HttpStatus.NOT_FOUND,
-	            "Campaign not found with the id: " + id
-	        ));
+            response.setId(campaign.getId());
+            response.setCampaignName(campaign.getCampaignName());
+            response.setDescription(campaign.getDescription());
+            response.setBudget(campaign.getBudget());
+            response.setStartDate(campaign.getStartDate());
+            response.setEndDate(campaign.getEndDate());
+            response.setStatus(campaign.getStatus());
 
-	    existingCampaign.setCampaignName(campaignRequest.getCampaignName());
-	    existingCampaign.setDescription(campaignRequest.getDescription());
-	    existingCampaign.setBudget(campaignRequest.getBudget());
-	    existingCampaign.setStartDate(campaignRequest.getStartDate());
-	    existingCampaign.setEndDate(campaignRequest.getEndDate());
-	    existingCampaign.setStatus(campaignRequest.getStatus());
+            responses.add(response);
+        }
 
-	    Campaign savedCampaign = campaignRepository.save(existingCampaign);
+        return responses;
+    }
 
-	    CampaignResponse response = new CampaignResponse();
+    // GET CAMPAIGN BY ID
+    public CampaignResponse getCampaignById(Long id) {
 
-	    response.setId(savedCampaign.getId());
-	    response.setCampaignName(savedCampaign.getCampaignName());
-	    response.setDescription(savedCampaign.getDescription());
-	    response.setBudget(savedCampaign.getBudget());
-	    response.setStartDate(savedCampaign.getStartDate());
-	    response.setEndDate(savedCampaign.getEndDate());
-	    response.setStatus(savedCampaign.getStatus());
+        Campaign campaign = campaignRepository.findById(id)
+            .orElseThrow(() -> new ResponseStatusException(
+                HttpStatus.NOT_FOUND,
+                "Campaign not found with the id: " + id
+            ));
 
-	    return response;
-	}
-	
-	public void deleteCampaign(Long id) {
-		Campaign existingCampaign = campaignRepository.findById(id)
-				.orElseThrow(() -> new ResponseStatusException(
-						HttpStatus.NOT_FOUND,
-						"Campaign not found with the id:  " + id
-					));
-		campaignRepository.delete(existingCampaign);
-	}
-	
+        CampaignResponse response = new CampaignResponse();
+
+        response.setId(campaign.getId());
+        response.setCampaignName(campaign.getCampaignName());
+        response.setDescription(campaign.getDescription());
+        response.setBudget(campaign.getBudget());
+        response.setStartDate(campaign.getStartDate());
+        response.setEndDate(campaign.getEndDate());
+        response.setStatus(campaign.getStatus());
+
+        return response;
+    }
+
+    // UPDATE CAMPAIGN
+    public CampaignResponse updateCampaign(
+            Long id,
+            CampaignRequest campaignRequest) {
+
+        Campaign existingCampaign = campaignRepository.findById(id)
+            .orElseThrow(() -> new ResponseStatusException(
+                HttpStatus.NOT_FOUND,
+                "Campaign not found with the id: " + id
+            ));
+
+        // Validate campaign status transition
+        CampaignStatus currentStatus = existingCampaign.getStatus();
+        CampaignStatus newStatus = campaignRequest.getStatus();
+
+        if (currentStatus == CampaignStatus.COMPLETED ||
+                currentStatus == CampaignStatus.CANCELLED) {
+
+            if (currentStatus != newStatus) {
+                throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST,
+                    "Cannot change campaign status from "
+                        + currentStatus + " to " + newStatus
+                );
+            }
+        }
+
+        // Update campaign details
+        existingCampaign.setCampaignName(campaignRequest.getCampaignName());
+        existingCampaign.setDescription(campaignRequest.getDescription());
+        existingCampaign.setBudget(campaignRequest.getBudget());
+        existingCampaign.setStartDate(campaignRequest.getStartDate());
+        existingCampaign.setEndDate(campaignRequest.getEndDate());
+        existingCampaign.setStatus(campaignRequest.getStatus());
+
+        Campaign savedCampaign = campaignRepository.save(existingCampaign);
+
+        CampaignResponse response = new CampaignResponse();
+
+        response.setId(savedCampaign.getId());
+        response.setCampaignName(savedCampaign.getCampaignName());
+        response.setDescription(savedCampaign.getDescription());
+        response.setBudget(savedCampaign.getBudget());
+        response.setStartDate(savedCampaign.getStartDate());
+        response.setEndDate(savedCampaign.getEndDate());
+        response.setStatus(savedCampaign.getStatus());
+
+        return response;
+    }
+
+    // DELETE CAMPAIGN
+    public void deleteCampaign(Long id) {
+
+        Campaign existingCampaign = campaignRepository.findById(id)
+            .orElseThrow(() -> new ResponseStatusException(
+                HttpStatus.NOT_FOUND,
+                "Campaign not found with the id: " + id
+            ));
+
+        campaignRepository.delete(existingCampaign);
+    }
 }
