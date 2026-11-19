@@ -186,4 +186,29 @@ public List<CampaignResponse> searchCampaigns(String name) {
     return responses;
 }
 
+public List<CampaignResponse> filterCampaignByStatus(CampaignStatus status){
+	
+	List<Campaign> campaigns = campaignRepository.findByStatus(status);
+	
+	List<CampaignResponse> responses = new ArrayList<>();
+	
+	for(Campaign campaign : campaigns) {
+		
+		CampaignResponse response = new CampaignResponse();
+		
+		response.setId(campaign.getId());
+		response.setCampaignName(campaign.getCampaignName());
+		response.setDescription(campaign.getDescription());
+		response.setBudget(campaign.getBudget());
+		response.setStartDate(campaign.getStartDate());
+		response.setEndDate(campaign.getEndDate());
+		response.setStatus(campaign.getStatus());
+		
+		responses.add(response);
+		
+		
+	}
+	return responses;
+}
+
 }
